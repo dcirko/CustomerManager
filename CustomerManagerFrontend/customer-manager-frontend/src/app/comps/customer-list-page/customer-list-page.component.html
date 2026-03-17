@@ -1,0 +1,80 @@
+<div class="customer-page">
+    <div class="header">
+        <h2>Customers</h2>
+        <div class="total">Total count: {{ totalRecords }}</div>
+        <button (click)="loadStatsPage()" class="stats">Stats</button>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" placeholder="Search by name" class="search-input" (input)="onSearch($event)" />
+
+        <select class="country-filter" (change)="onCountryChange($event)">
+            <option value="">All Countries</option>
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+        </select>
+
+        <button class="deactivate-btn" [disabled]="selectedCustomers.length === 0" (click)="deactivateSelected()">Deactivate Selected</button>
+    </div>
+
+    <div class="table-container">
+        <div *ngIf="loading" class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+
+        <table *ngIf="!loading">
+            <thead>
+                <tr>
+                <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+                <th (click)="sort('name')">Name
+                    <span *ngIf="sortColumn === 'name'">
+                        {{ sortOrder ? '▲' : '▼' }}
+                    </span></th>
+                <th>Email</th>
+                <th (click)="sort('city')">City
+                    <span *ngIf="sortColumn === 'city'">
+                        {{ sortOrder ? '▲' : '▼' }}
+                    </span></th>
+                <th (click)="sort('country')">Country
+                    <span *ngIf="sortColumn === 'country'">
+                        {{ sortOrder ? '▲' : '▼' }}
+                    </span></th>
+                <th (click)="sort('isActive')">Status
+                    <span *ngIf="sortColumn === 'isActive'">
+                        {{ sortOrder ? '▲' : '▼' }}
+                    </span></th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let customer of customers" >
+                    <td><input type="checkbox" [checked]="isSelected(customer.id)" (change)="toggleSelection(customer.id); $event.stopPropagation()"  /></td>
+
+                    <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.country }}</td>
+
+                    <td>
+                        <span class="status" [class.active]="customer.isActive" [class.inactive]="!customer.isActive">
+                        {{ customer.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td>
+                        <button (click)="editCustomer(customer.id)">Edit</button>
+                        <button (click)="deleteCustomer(customer.id)" style="margin-left: 15px;">Delete</button>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageNumber === 1">Previous</button>
+        <span>Page {{ pageNumber }} / {{ totalPages }}</span>
+
+        <button (click)="nextPage()" [disabled]="pageNumber === totalPages">Next</button>
+    </div>
+</div>
+

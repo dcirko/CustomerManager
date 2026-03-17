@@ -1,0 +1,27 @@
+<div class="statsMain" *ngIf="customerStats">
+    <div class="statsCard">
+        <div class="card">
+            <h3>Total Customers</h3>
+            <p>{{ customerStats.totalCount }}</p>
+        </div>
+        <div class="card">
+            <h3>Active Customers</h3>
+            <p>{{ customerStats.activeCount }}</p>
+        </div>
+        <div class="card">
+            <h3>Inactive Customers</h3>
+            <p>{{ customerStats.inactiveCount }}</p>
+        </div>
+    </div>
+    <div class="statsChart">
+        <h3>Top 5 cities</h3>
+        <ul>
+            <li *ngFor="let city of customerStats.top5Cities; let i = index">
+                <span class="rank">{{ i + 1 }}.</span>
+                <span class="city-name">{{ city.name }}</span>
+                <span class="count">{{ city.customerCount }}</span>
+                <div class="bar" [style.width.%]="(city.customerCount / customerStats.totalCount) * 100"></div>
+            </li>
+        </ul>
+    </div>
+</div>

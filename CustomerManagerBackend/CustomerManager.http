@@ -1,0 +1,53 @@
+@CustomerManager_HostAddress = http://localhost:5178/api
+
+GET {{CustomerManager_HostAddress}}/customers?PageNumber=2&PageSize=20 
+Accept: application/json
+
+//?SortOrder=desc&SortColumn=City
+
+###
+GET {{CustomerManager_HostAddress}}/customers/stats
+Accept: application/json
+
+###
+GET {{CustomerManager_HostAddress}}/customers/3
+Accept: application/json
+
+###
+POST {{CustomerManager_HostAddress}}/customers
+Content-Type: application/json
+
+{
+    "FirstName": "Jane",
+    "LastName": "Doe",
+    "Email": "Laura.Kovac1@gmail.com",
+    "Phone":"0932222222",
+    "City":"Beograd",
+    "Country":"Hrvatska"
+}
+
+###
+DELETE {{CustomerManager_HostAddress}}/customers
+Accept: application/json
+
+###
+PUT {{CustomerManager_HostAddress}}/customers/5
+Content-Type: application/json
+
+{
+    "FirstName": "Jane",
+    "LastName": "Doe",
+    "Email": "janed@gmail.com",
+    "Phone":"0932222222",
+    "City":"Zagreb",
+    "Country":"Hrvatska"
+}
+
+###
+POST {{CustomerManager_HostAddress}}/customers/bulk-deactivate
+Content-Type: application/json
+
+[
+    1,
+    5
+]
